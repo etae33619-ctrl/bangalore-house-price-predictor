@@ -1,5 +1,6 @@
 import json
 import pickle
+import os
 
 import numpy as np
 
@@ -28,19 +29,26 @@ def get_estimated_price(location,sqft,bhk,bath):
 def get_location_names():
     return __locations
     #pass
+
+
 def load_saved_artifacts():
     print("loading saved artifacts......starts")
     global __data_columns
     global __locations
     global __model
-    with open("./attifacs/columns.json",'r') as f:
-        __data_columns=json.load(f)['data_columns']
-        __locations=__data_columns[3:]
-    with open("./attifacs/banglore_home_model.pickle",'rb') as f:
-        __model=pickle.load(f)
+
+    # Absolute path setup for Render deployment
+    base_dir = os.path.dirname(__file__)
+    columns_path = os.path.join(base_dir, "attifacs", "columns.json")
+    model_path = os.path.join(base_dir, "attifacs", "banglore_home_model.pickle")
+
+    with open(columns_path, 'r') as f:
+        __data_columns = json.load(f)['data_columns']
+        __locations = __data_columns[3:]
+
+    with open(model_path, 'rb') as f:
+        __model = pickle.load(f)
         print("loading save artifacts ...done")
-
-
 
 if __name__=='__main__':
     print(get_location_names())
