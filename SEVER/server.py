@@ -4,6 +4,7 @@ import util
 
 app = Flask(__name__)
 CORS(app)  # Activated CORS to stop cross-origin browser blocks
+util.load_saved_artifacts()
 
 
 @app.route('/get_location_names', methods=['GET'])
